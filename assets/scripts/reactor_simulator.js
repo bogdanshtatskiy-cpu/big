@@ -231,7 +231,8 @@
   var getTextureImg = function(character) {
     var elmt = $('<div class="texture"></div>').html('&nbsp;');
     if (character != 'O') {
-      elmt.css('background-image', 'url(assets/textures/' + character + '.gif)');
+      // Строгий относительный путь для картинок
+      elmt.css('background-image', "url('./assets/textures/" + character + ".gif')");
     }
     return elmt;
   };
@@ -482,7 +483,8 @@
         if (e.material.character) bgUrl = 'textures/' + e.material.character;
         else bgUrl = 'icons/' + e.material.key;
 
-        var icon = $('<div></div>').addClass('texture').css({backgroundImage: 'url(assets/' + bgUrl + '.gif)'});
+        // Строгий относительный путь для иконок списка ресурсов
+        var icon = $('<div></div>').addClass('texture').css({backgroundImage: "url('./assets/" + bgUrl + ".gif')"});
         label = $('<span></span>').addClass('material-label').addClass('collapsed').append(e.material.name).append($('<span></span>').addClass('material-count').html(addCommas(e.count)));
 
         elem.append(icon).append(label);
