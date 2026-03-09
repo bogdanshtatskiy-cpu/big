@@ -84,7 +84,7 @@ a {
 }
 
 h4 {
-  margin: 15px;
+  margin: 15px 15px 20px 15px;
   text-decoration: none;
   border-bottom: 1px solid #444;
   padding-bottom: 5px;
@@ -92,25 +92,37 @@ h4 {
 
 .dim-prompt {
   display: inline-block;
+  margin: 0 10px;
 }
 
 .dim-prompt label {
   display: block;
+  margin-bottom: 5px;
 }
 
 .dim-prompt input[type="text"] {
-  width: 50px;
+  width: 60px;
+  padding: 5px;
   background-color: #222222;
-  border: 1px solid #444;
+  border: 1px solid #555;
   color: #FFFFFF;
   text-align: center;
+  border-radius: 4px;
 }
 
 .buttons {
   margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
-/* Bootstrap Button Overrides for Dark Mode */
+/* Выравнивание кнопок */
+.btn {
+  margin: 5px;
+}
+
 .btn-default {
   background-color: #222222;
   color: #FFFFFF;
@@ -124,25 +136,30 @@ h4 {
   border-color: #666 !important;
 }
 
+/* Сетка реактора - теперь видимая */
 .grid-table {
   max-width: 900px;
+  border-collapse: collapse;
 }
 
-.grid-table, .grid-table td {
-  border-spacing: 0;
-  border-collapse: collapse;
+.grid-table td {
+  border: 1px solid #333; /* Границы, чтобы поле было видно */
+  background-color: #1a1a1a; /* Цвет по умолчанию, если текстура не загрузилась */
   padding: 0;
   margin: 0;
 }
 
-.grid-table td.contents.selected {
-  background-color: #2D2D2D;
-  opacity: 0.8;
+.grid-table td.casing {
+  background-color: #252525;
 }
 
 .grid-table td.contents {
   cursor: pointer;
-  background-color: #111111;
+}
+
+.grid-table td.contents.selected {
+  background-color: #3d3d3d;
+  opacity: 0.9;
 }
 
 .grid-table td .texture {
@@ -150,7 +167,14 @@ h4 {
   height: 50px;
 }
 
-#fill-controls, #size-controls {
+#fill-controls {
+  margin: 15px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#size-controls {
   margin: 15px;
 }
 
@@ -158,6 +182,7 @@ h4 {
   max-width: 500px;
   max-height: 500px;
   overflow: visible;
+  margin: 0 auto;
 }
 
 #simulation-results ul {
@@ -168,6 +193,7 @@ h4 {
 #simulation-results ul li {
   text-align: left;
   min-height: 24px;
+  margin-bottom: 5px;
 }
 
 .ico {
@@ -177,6 +203,7 @@ h4 {
   background-repeat: no-repeat;
   background-size: contain;
   vertical-align: middle;
+  margin-right: 10px;
 }
 
 .ico-temperature { background-image: url(../icons/temperature.gif); }
@@ -212,14 +239,14 @@ h4 {
 }
 
 .info {
-  margin: 10px 0;
+  margin: 20px 0;
   font-size: 0.85em;
   color: #aaa;
-  text-align: left;
+  text-align: center;
 }
 
 .input-container {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 #control-rod-insertion {
@@ -230,6 +257,8 @@ h4 {
 
 #control-rod-insertion-value {
   vertical-align: top;
+  display: inline-block;
+  margin-top: 3px;
 }
 
 .r-input-group,
@@ -248,22 +277,24 @@ h4 {
   text-align: left;
   border-bottom: 1px solid #444;
   padding: 0;
-  margin: 0 0 10px 0;
+  margin: 0 0 15px 0;
+  display: flex;
 }
 
 .tab-controls li {
-  display: inline-block;
   padding: 8px 12px;
   cursor: pointer;
   background-color: #111111;
   color: #aaa;
+  border: 1px solid transparent;
 }
 
 .tab-controls li.active {
   background-color: #222222;
   color: #FFF;
   border: 1px solid #444;
-  border-bottom: none;
+  border-bottom: 1px solid #222222;
+  margin-bottom: -1px;
 }
 
 .tab-controls li:hover:not(.active) {
@@ -280,11 +311,13 @@ h4 {
 }
 
 #controls-tabs {
-  height: 300px;
+  height: auto;
+  min-height: 350px;
   background-color: #222222;
-  padding: 10px;
+  padding: 15px;
   border-radius: 4px;
   border: 1px solid #333;
+  margin-bottom: 20px;
 }
 
 .loading-animation {
@@ -344,12 +377,14 @@ h4 {
   padding: 0;
   font-size: 0;
   background-color: #111111;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .toggle-modes li {
   display: inline-block;
   margin: 0;
-  padding: 5px 10px;
+  padding: 8px 12px;
   font-size: 10pt;
   cursor: pointer;
   color: #aaa;
@@ -360,7 +395,7 @@ h4 {
 }
 
 .toggle-modes li.active {
-  background-color: #222222;
+  background-color: #333333;
   color: #FFF;
 }
 
@@ -384,12 +419,14 @@ h4 {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  margin: 2px;
 }
 
 #optimize-control-rod {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .live-height-panel {
   display: inline-block;
+  margin-right: 15px;
 }
