@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+  <meta charset="UTF-8">
+  <title>Симулятор BigReactor</title>
+
+  <meta name="description" content="Симулятор для мода Minecraft Big Reactors"/>
+
+  <link rel="stylesheet" href="assets/style/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/style/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="assets/style/bootstrap-switch.css">
+
+  <link rel="stylesheet" href="assets/style/jquery-ui.min.css">
+  <link rel="stylesheet" href="assets/style/jquery-ui.structure.min.css">
+  <link rel="stylesheet" href="assets/style/jquery-ui.theme.min.css">
+
+  <link rel="stylesheet" href="assets/style/cover.css"/>
+  <link rel="stylesheet" href="assets/style/main.css"/>
+  <link rel="stylesheet" href="assets/style/plusminus.css"/>
+
+  <script src="assets/scripts/jquery.min.js"></script>
+  <script src="assets/scripts/jquery.browser.min.js"></script>
+  <script src="assets/scripts/jquery.ba-hashchange.min.js"></script>
+  <script src="assets/scripts/jquery-ui.min.js"></script>
+
+  <script src="assets/scripts/bootstrap.min.js"></script>
+  <script src="assets/scripts/bootstrap-switch.min.js"></script>
+
+  <script src="assets/scripts/nav.js"></script>
+  <script src="assets/scripts/plusminus.js"></script>
+  <script src="assets/scripts/reactor_simulator.js"></script>
+</head>
+<body>
+<div class="site-wrapper">
+  <div class="site-wrapper-inner">
+    <div class="site-container">
+      <div class="masthead clearfix">
+        <div class="inner">
+          <h3 class="masthead-brand">Симулятор BigReactor</h3>
+          <div id="reactor-title"></div>
+          <nav>
+            <ul class="nav masthead-nav">
+              <li><a href="#" data-page="reactor-prompt">Новый реактор</a></li>
+              <li><a href="#" data-page="about">О проекте</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <div class="content-wrapper">
+        <div id="reactor-controls">
+          <div id="controls-tabs" class="tab-container">
+            <ol class="tab-controls">
+              <li class="active" data-for="layout">Схема</li>
+              <li data-for="controls">Управление</li>
+              <li data-for="design">Дизайн</li>
+            </ol>
+
+            <div class="tab active" data-tab-name="layout">
+              <div id="grid-selection">&nbsp;</div>
+
+              <div id="controls-grid"></div>
+
+              <div id="fill-controls">
+                <button type="button" class="btn btn-default" id="fill">
+                  <span class="glyphicon glyphicon-tint" aria-hidden="true"></span> Заполнить
+                </button>
+                <button type="button" class="btn btn-default" id="simulate">
+                  <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Симуляция
+                </button>
+              </div>
+
+              <div>
+                <input type="checkbox" id="auto-update" checked />
+              </div>
+
+            </div>
+
+            <div class="tab" data-tab-name="controls">
+              <div class="r-input-group">
+                <div class="input-container">
+                  <input type="checkbox" name="activelyCooled" id="activelyCooled"/>
+                  <label for="activelyCooled" class="checkbox-label">Активное охлаждение</label>
+                </div>
+
+                <div class="input-container">
+                  <label for="control-rod-insertion">Погружение стержней</label>
+
+                  <div id="control-rod-insertion"></div>
+                  <span id="control-rod-insertion-value">0%</span>
+
+                  <div>
+                    <div class="plusminus control-rod-plusminus" data-value="1" data-label="1%"></div>
+                    <div class="plusminus control-rod-plusminus" data-value="5" data-label="5%"></div>
+                    <div class="plusminus control-rod-plusminus" data-value="10" data-label="10%"></div>
+                  </div>
+
+                  <div>
+                    <button type="button" class="btn btn-default" id="optimize-control-rod">
+                      <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Оптимизировать
+                    </button>
+                  </div>
+                </div>
+
+                <div class="input-container">
+                  <label>Модпак</label>
+
+                  <div>
+                    <ul id="modpack" class="toggle-modes">
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab" data-tab-name="design">
+              <div id="size-controls">
+                <div class="live-height-panel">
+                  <label for="live-height">Высота</label>
+
+                  <div id="live-height"></div>
+                  <span id="live-height-label">0</span>
+                </div>
+
+                <div class="live-height-panel">
+                  <div class="plusminus live-height-plusminus" data-value="1" data-label="1"></div>
+                  <div class="plusminus live-height-plusminus" data-value="5" data-label="5"></div>
+                  <div class="plusminus live-height-plusminus" data-value="10" data-label="10"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="simulation-results">
+            <div class="tab-container">
+              <ol class="tab-controls">
+                <li class="active" data-for="output">Результаты</li>
+                <li data-for="costs">Ресурсы</li>
+              </ol>
+
+              <div class="tab active" data-tab-name="output">
+                <div class="loading-animation simulation"></div>
+
+                <ul>
+                  <li data-for="fuelHeat">
+                    <span class="ico ico-temperature"></span>
+                    <span class="value">-</span>
+                    <span class="unit">C</span>
+                  </li>
+
+                  <li id="passiveCoolingOutput" data-for="output" class="passive-only">
+                    <span class="ico ico-energy"></span>
+                    <span class="value">-</span>
+                    <span class="unit">RF/t</span>
+                  </li>
+
+                  <li id="activeCoolingOutput" data-for="output" class="active-only">
+                    <span class="ico ico-hotFluid"></span>
+                    <span class="value">-</span>
+                    <span class="unit">mB/t</span>
+                  </li>
+
+                  <li data-for="fuelConsumption">
+                    <span class="ico ico-consumption"></span>
+                    <span class="value">-</span>
+                    <span class="unit">mB/t</span>
+                  </li>
+
+                  <li data-for="fuelFertility">
+                    <span class="ico ico-fertility"></span>
+                    <span class="value">-</span>
+                    <span class="unit">%</span>
+                  </li>
+                </ul>
+
+                <h4>Эффективность</h4>
+
+                <ul>
+
+                  <li data-for="outputIngotConsumption">
+                    <span class="value">-</span>
+                    <span class="unit">слиток/мин</span>
+                  </li>
+
+                  <li data-for="outputPerFuel" class="passive-only">
+                    <span class="value">-</span>
+                    <span class="unit">RF/mB</span>
+                  </li>
+
+                  <li data-for="outputPerFuel" class="active-only">
+                    <span class="value">-</span>
+                    <span class="unit">mB/mB</span>
+                  </li>
+
+                  <li data-for="outputPerBlock" class="passive-only">
+                    <span class="value">-</span>
+                    <span class="unit">RF/блок</span>
+                  </li>
+
+                  <li data-for="outputPerBlock" class="active-only">
+                    <span class="value">-</span>
+                    <span class="unit">mB/блок</span>
+                  </li>
+
+                  <li data-for="outputPerFuelPerBlock" class="passive-only">
+                    <span class="value">-</span>
+                    <span class="unit">RF/mB/блок</span>
+                  </li>
+
+                  <li data-for="outputPerFuelPerBlock" class="active-only">
+                    <span class="value">-</span>
+                    <span class="unit">mB/mB/блок</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="tab" data-tab-name="costs">
+                <ul id="costs-mode" class="toggle-modes">
+                  <li class="active" data-option="breakdown">Детально</li>
+                  <li data-option="totals">Итого</li>
+                </ul>
+
+                <div class="clearfix"></div>
+
+                <div id="costs-area"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="error-area"></div>
+        </div>
+
+        <div id="page-container">
+          <div class="page" id="about">
+            <div class="center-page">
+              <div class="credits">
+                <h4>Симулятор BigReactor</h4>
+                Перевод и редизайн для работы на GitHub Pages.
+              </div>
+            </div>
+          </div>
+
+          <div class="inner cover page" id="reactor-design">
+            <div id="reactor-area"></div>
+          </div>
+
+          <div class="inner cover page" id="reactor-prompt">
+            <form id="reactor-prompt-form">
+              <div class="r-input-group">
+                <h4>Размеры реактора</h4>
+
+                <div class="dim-prompt">
+                  <label for="length">Длина</label>
+                  <input type="text" name="length" id="length" value="5"/>
+                </div>
+
+                <div class="dim-prompt">
+                  <label for="width">Ширина</label>
+                  <input type="text" name="width" id="width" value="5"/>
+                </div>
+
+                <div class="dim-prompt">
+                  <label for="height">Высота</label>
+                  <input type="text" name="height" id="height" value="5"/>
+                </div>
+
+                <p class="info">
+                  Размеры определяют внутреннюю часть реактора (без учета корпуса).
+                </p>
+              </div>
+
+              <div class="buttons">
+                <button type="button" class="btn btn-default" id="create-reactor">
+                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Создать
+                </button>
+                <button type="button" class="btn btn-default" id="new-design-cancel">
+                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Отмена
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
